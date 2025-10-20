@@ -1,4 +1,6 @@
-work_dirs/
+.vscode/
+data/
+*work_dirs*/
 
 projects/BEVFusion/ckpt/
 projects/BEVFusion/demo/data/nuscenes/
