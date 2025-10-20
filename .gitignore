@@ -1,3 +1,8 @@
+work_dirs/
+
+projects/BEVFusion/ckpt/
+projects/BEVFusion/demo/data/nuscenes/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
