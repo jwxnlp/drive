@@ -1,6 +1,8 @@
 .vscode/
 data/
 *work_dirs*/
+*.pcd
+*.ipynb
 
 projects/BEVFusion/ckpt/
 projects/BEVFusion/demo/data/nuscenes/
