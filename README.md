@@ -5,11 +5,11 @@ explore self-driving
 explore self-driving by myself
 
 ## environment
-conda environment name: det3d or drive
-mmdetection3d: tag: v1.4.0, commit@fe25f7a51d36e3702f961e198894580d83c4387b
+conda environment name: drive
 mmengine: 0.10.7
 mmcv: 2.1.0
 mmdet: 3.3.0
+mmdet3d: 1.4.0
 
 ## projects
 explore other autonomous driving projects

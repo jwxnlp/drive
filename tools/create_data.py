@@ -152,10 +152,6 @@ parser.add_argument(
     required=False,
     help='specify sweeps of lidar per example')
 parser.add_argument(
-    '--with-plane',
-    action='store_true',
-    help='Whether to use plane information for kitti.') # not sure wether
-parser.add_argument(
     '--out-dir',
     type=str,
     default='./data/nuscenes',

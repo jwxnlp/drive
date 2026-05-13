@@ -1,11 +1,13 @@
 .vscode/
 data/
+ckpts/
 *work_dirs*/
 *.pcd
 *.ipynb
 
-projects/BEVFusion/ckpt/
+projects/BEVFusion/ckpts/
 projects/BEVFusion/demo/data/nuscenes/
+tools/scripts/set_env.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
