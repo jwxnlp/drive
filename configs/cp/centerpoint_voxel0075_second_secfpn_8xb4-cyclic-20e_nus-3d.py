@@ -413,3 +413,5 @@ load_from = None
 resume = False
 
 # TODO: support auto scaling lr
+
+randomness = dict(seed=666, deterministic=True)
