@@ -129,43 +129,6 @@ model = dict(
 #      }))
 backend_args = None
 
-db_sampler = dict(
-    data_root=data_root,
-    info_path=data_root + 'nuscenes_dbinfos_train.pkl',
-    rate=1.0,
-    prepare=dict(
-        filter_by_difficulty=[-1],
-        filter_by_min_points=dict(
-            car=5,
-            truck=5,
-            bus=5,
-            trailer=5,
-            construction_vehicle=5,
-            traffic_cone=5,
-            barrier=5,
-            motorcycle=5,
-            bicycle=5,
-            pedestrian=5)),
-    classes=class_names,
-    sample_groups=dict(
-        car=2,
-        truck=3,
-        construction_vehicle=7,
-        bus=4,
-        trailer=6,
-        barrier=2,
-        motorcycle=6,
-        bicycle=6,
-        pedestrian=2,
-        traffic_cone=2),
-    points_loader=dict(
-        type='LoadPointsFromFile',
-        coord_type='LIDAR',
-        load_dim=5,
-        use_dim=[0, 1, 2, 3, 4],
-        backend_args=backend_args),
-    backend_args=backend_args)
-
 train_pipeline = [
     dict(
         type='LoadPointsFromFile',
@@ -181,7 +144,6 @@ train_pipeline = [
         remove_close=True,
         backend_args=backend_args),
     dict(type='LoadAnnotations3D', with_bbox_3d=True, with_label_3d=True),
-    dict(type='ObjectSample', db_sampler=db_sampler),
     dict(
         type='GlobalRotScaleTrans',
         rot_range=[-0.3925, 0.3925],
@@ -251,8 +213,6 @@ train_dataloader = dict(
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=dict(
-        type='CBGSDataset',
-        dataset=dict(
             type=dataset_type,
             data_root=data_root,
             ann_file='nuscenes_infos_train.pkl',
@@ -264,24 +224,7 @@ train_dataloader = dict(
             # we use box_type_3d='LiDAR' in kitti and nuscenes dataset
             # and box_type_3d='Depth' in sunrgbd and scannet dataset.
             box_type_3d='LiDAR',
-            backend_args=backend_args)))
-test_dataloader = dict(
-    batch_size=1,
-    num_workers=1,
-    persistent_workers=True,
-    drop_last=False,
-    sampler=dict(type='DefaultSampler', shuffle=False),
-    dataset=dict(
-        type=dataset_type,
-        data_root=data_root,
-        ann_file='nuscenes_infos_val.pkl',
-        pipeline=test_pipeline,
-        metainfo=dict(classes=class_names),
-        modality=input_modality,
-        data_prefix=data_prefix,
-        test_mode=True,
-        box_type_3d='LiDAR',
-        backend_args=backend_args))
+            backend_args=backend_args))
 val_dataloader = dict(
     batch_size=1,
     num_workers=1,
@@ -295,10 +238,11 @@ val_dataloader = dict(
         pipeline=test_pipeline,
         metainfo=dict(classes=class_names),
         modality=input_modality,
-        test_mode=True,
         data_prefix=data_prefix,
+        test_mode=True,
         box_type_3d='LiDAR',
         backend_args=backend_args))
+test_dataloader = val_dataloader
 
 val_evaluator = dict(
     type='NuScenesMetric',
@@ -370,7 +314,7 @@ param_scheduler = [
 # runtime settings
 train_cfg = dict(by_epoch=True, max_epochs=20, val_interval=20)
 val_cfg = dict()
-test_cfg = dict()
+test_cfg = val_cfg
 
 # Default setting for scaling LR automatically
 #   - `enable` means enable scaling LR automatically
@@ -399,7 +343,5 @@ log_processor = dict(type='LogProcessor', window_size=50, by_epoch=True)
 log_level = 'INFO'
 load_from = None
 resume = False
-
-# TODO: support auto scaling lr
 
 randomness = dict(seed=666, deterministic=True)
